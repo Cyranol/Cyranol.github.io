@@ -1,0 +1,364 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>JavaWeb-Tlias | Cyranol's Blog</title><meta name="author" content="Cyranol"><meta name="copyright" content="Cyranol"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="1. 分页查询返回的结果为 数据总数 + 数据列表，需要封装成一个实体类，以便返回结果 12345public class PageResult&#123;    &#x2F;&#x2F; 属性定义什么名称由接口文档决定，这里只是一个demo	private Long total;    private List rows;&#125;  1.1 传统做法1.1.1 controller层接收客户端请求 —&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaWeb-Tlias">
+<meta property="og:url" content="http://cyranol.github.io/2025/09/13/JavaWeb-Tlias/index.html">
+<meta property="og:site_name" content="Cyranol&#39;s Blog">
+<meta property="og:description" content="1. 分页查询返回的结果为 数据总数 + 数据列表，需要封装成一个实体类，以便返回结果 12345public class PageResult&#123;    &#x2F;&#x2F; 属性定义什么名称由接口文档决定，这里只是一个demo	private Long total;    private List rows;&#125;  1.1 传统做法1.1.1 controller层接收客户端请求 —&gt;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://cyranol.github.io/img/11.jpg">
+<meta property="article:published_time" content="2025-09-13T14:38:20.000Z">
+<meta property="article:modified_time" content="2025-09-14T14:59:15.639Z">
+<meta property="article:author" content="Cyranol">
+<meta property="article:tag" content="JavaWeb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cyranol.github.io/img/11.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "JavaWeb-Tlias",
+  "url": "http://cyranol.github.io/2025/09/13/JavaWeb-Tlias/",
+  "image": "http://cyranol.github.io/img/11.jpg",
+  "datePublished": "2025-09-13T14:38:20.000Z",
+  "dateModified": "2025-09-14T14:59:15.639Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Cyranol",
+      "url": "http://Cyranol.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://cyranol.github.io/2025/09/13/JavaWeb-Tlias/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"Author: Cyranol","link":"Link: ","source":"Source: Cyranol's Blog","info":"Copyright belongs to the author. For commercial use, please contact the author for authorization. For non-commercial use, please indicate the source."}},
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'JavaWeb-Tlias',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/03.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/01.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">1</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/11.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Cyranol's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">JavaWeb-Tlias</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">JavaWeb-Tlias</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-09-13T14:38:20.000Z" title="Created 2025-09-13 22:38:20">2025-09-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-09-14T14:59:15.639Z" title="Updated 2025-09-14 22:59:15">2025-09-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="1-分页查询"><a href="#1-分页查询" class="headerlink" title="1. 分页查询"></a>1. 分页查询</h1><p>返回的结果为 数据总数 + 数据列表，需要封装成一个实体类，以便返回结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PageResult</span>&#123;</span><br><span class="line">    <span class="comment">// 属性定义什么名称由接口文档决定，这里只是一个demo</span></span><br><span class="line">	<span class="keyword">private</span> Long total;</span><br><span class="line">    <span class="keyword">private</span> List rows;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-1-传统做法"><a href="#1-1-传统做法" class="headerlink" title="1.1 传统做法"></a>1.1 传统做法</h2><h3 id="1-1-1-controller层"><a href="#1-1-1-controller层" class="headerlink" title="1.1.1 controller层"></a>1.1.1 controller层</h3><p>接收客户端请求 —&gt; 调用Service层接口 —&gt; 给客户端返回数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/emp&quot;)</span>	    </span><br><span class="line"><span class="comment">//接口文档要求，客户端请求格式为	</span></span><br><span class="line"><span class="comment">// localhost:4000/emp?key=value&amp;key=value...</span></span><br><span class="line"><span class="meta">@GetMapping</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmpController</span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> EmpService empService;</span><br><span class="line">    <span class="comment">// page接收用户点击的该页页码，pageSize接收每页成员个数</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">page</span><span class="params">(Integer page, Integer pagesize)</span>&#123;</span><br><span class="line">        <span class="type">PageResult</span> <span class="variable">pageResult</span> <span class="operator">=</span> empservice.list(page,pagesize);</span><br><span class="line">        <span class="keyword">return</span> Result.success(pageResult);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-1-2-Service层"><a href="#1-1-2-Service层" class="headerlink" title="1.1.2 Service层"></a>1.1.2 Service层</h3><p>处理业务逻辑 + 调用Mapper层接口，将结果返回给Controller层(Service层常采用多态写法，接口仅用于定义需要的方法（公头，发放任务），实现类负责具体的实现（工人，干活）)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmpService</span>&#123;</span><br><span class="line">    PageResult <span class="title function_">list</span><span class="params">(Integer page, Integer pageSize)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmpServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">EmpService</span>&#123;</span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> EmmpMapper empMapper;</span><br><span class="line">	</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> PageResult <span class="title function_">list</span><span class="params">(Integer page, Integer pageSize)</span>&#123;</span><br><span class="line">        <span class="comment">// 1.统计总数</span></span><br><span class="line">        <span class="type">Long</span> <span class="variable">total</span> <span class="operator">=</span> empMapper.total();</span><br><span class="line">        <span class="comment">// 2.获取分页列表</span></span><br><span class="line">        List&lt;Emp&gt; rows = empMapper.list((page-<span class="number">1</span>)*pageSize,pageSize);</span><br><span class="line">        <span class="comment">// 3.封装成PageResult类型返回给Controller层</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">PageResult</span>(total,list);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-1-3-Mapper层"><a href="#1-1-3-Mapper层" class="headerlink" title="1.1.3  Mapper层"></a>1.1.3  Mapper层</h3><p>与数据库进行交互，将交互结果返回给Service层。（由上可知，Service层需要的是total和rows，Mapper层与数据库交互时的动作就是获取这两项数据）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmpMapper</span>&#123;</span><br><span class="line">    <span class="meta">@Select(&quot;select count(0) from emp&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Long <span class="title function_">total</span><span class="params">()</span>;</span><br><span class="line">    <span class="meta">@Select(&quot;select * from emp limit #&#123;page&#125;,#&#123;pageSize&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;Emp&gt; <span class="title function_">list</span><span class="params">(Integer page, Integer pageSize)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-利用Mybatis的PageHelper插件"><a href="#1-2-利用Mybatis的PageHelper插件" class="headerlink" title="1.2 利用Mybatis的PageHelper插件"></a>1.2 利用Mybatis的PageHelper插件</h2><h3 id="1-2-1-导入依赖"><a href="#1-2-1-导入依赖" class="headerlink" title="1.2.1 导入依赖"></a>1.2.1 导入依赖</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&lt;!--分页插件PageHelper--&gt;</span></span><br><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line">    <span class="string">&lt;groupId&gt;com.github.pagehelper&lt;/groupId&gt;</span></span><br><span class="line">    <span class="string">&lt;artifactId&gt;pagehelper-spring-boot-starter&lt;/artifactId&gt;</span></span><br><span class="line">    <span class="string">&lt;version&gt;1.4.7&lt;/version&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-2-Controller层"><a href="#1-2-2-Controller层" class="headerlink" title="1.2.2 Controller层"></a>1.2.2 Controller层</h3><p>同1.1.1</p>
+<h3 id="1-2-3-Service层"><a href="#1-2-3-Service层" class="headerlink" title="1.2.3 Service层"></a>1.2.3 Service层</h3><p>接口同1.1.2一样</p>
+<p>实现类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmpServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">EmpService</span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> EmpMapper empMapper;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> PageResult <span class="title function_">list</span><span class="params">(Integer page, Integer pageSize)</span>&#123;</span><br><span class="line">        <span class="comment">// 1.设置分页参数</span></span><br><span class="line">        PageHelper.startPage(page,pageSize);</span><br><span class="line">        <span class="comment">// 2.调用Mapper接口,获取emp列表数据</span></span><br><span class="line">        List&lt;Emp&gt; empList = empMapper.list();</span><br><span class="line">        <span class="comment">// 3.将empList强转成Page&lt;Emp&gt;类型</span></span><br><span class="line">        Page&lt;Emp&gt; p = （Page&lt;Emp&gt;）emplist;</span><br><span class="line">        <span class="comment">// 4.将结果封装返回</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">PageResult</span>(p.getTotal(),p.getResult());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-3-Mapper层"><a href="#1-2-3-Mapper层" class="headerlink" title="1.2.3 Mapper层"></a>1.2.3 Mapper层</h3><p>直接一个查询即可</p>
+<blockquote>
+<p>1.PageHelper分页查询时，sql语句不能加分号<br>2.PageHelper只会对紧跟在其后的第一条SQL语句进行分页处理，相当于只会对 List<Emp> empList &#x3D; empMapper.list();生效，若后面还有 List<Emp> empList &#x3D; empMapper.list2();，则list2()不生效</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmpMapper</span>&#123;</span><br><span class="line">    <span class="meta">@Select(&quot;select * from emp&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;Emp&gt; <span class="title function_">list</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-常见业务"><a href="#2-常见业务" class="headerlink" title="2.常见业务"></a>2.常见业务</h1><h2 id="2-1-查询（需要返回给前端数据）"><a href="#2-1-查询（需要返回给前端数据）" class="headerlink" title="2.1 查询（需要返回给前端数据）"></a>2.1 查询（需要返回给前端数据）</h2><p>1.查询所有不需要接收参数。例：</p>
+<p><img src="C:\Users\LL\AppData\Roaming\Typora\typora-user-images\1757831211053.png" alt="1757831211053"></p>
+<p>2.根据id查询，常用于回显功能，需要用形参id接收路径参数。例：</p>
+<p><img src="C:\Users\LL\AppData\Roaming\Typora\typora-user-images\1757831237600.png" alt="1757831237600"></p>
+<p>3.多条件查询，需要接收多个参数，单独封装成一个类来接收参数。例：</p>
+<p><img src="C:\Users\LL\AppData\Roaming\Typora\typora-user-images\1757832145190.png" alt="1757832145190"></p>
+<h2 id="2-2-操作-不需要返回数据"><a href="#2-2-操作-不需要返回数据" class="headerlink" title="2.2 操作(不需要返回数据)"></a>2.2 操作(不需要返回数据)</h2><h3 id="2-2-1-删（批量删除，包括了删除单个）"><a href="#2-2-1-删（批量删除，包括了删除单个）" class="headerlink" title="2.2.1 删（批量删除，包括了删除单个）"></a>2.2.1 删（批量删除，包括了删除单个）</h3><p>请求参数名与形参名相同时，可省略@PathVariable。例：</p>
+<p><img src="C:\Users\LL\AppData\Roaming\Typora\typora-user-images\1757831282730.png" alt="1757831282730"></p>
+<p><img src="C:\Users\LL\AppData\Roaming\Typora\typora-user-images\1757817660725.png" alt="1757817660725"></p>
+<h3 id="2-2-2-增"><a href="#2-2-2-增" class="headerlink" title="2.2.2 增"></a>2.2.2 增</h3><p><img src="C:\Users\LL\AppData\Roaming\Typora\typora-user-images\1757817556375.png" alt="1757817556375"></p>
+<h3 id="2-2-3-改"><a href="#2-2-3-改" class="headerlink" title="2.2.3 改"></a>2.2.3 改</h3><p><img src="C:\Users\LL\AppData\Roaming\Typora\typora-user-images\1757817796695.png" alt="1757817796695"></p>
+<h1 id="3-形参注解"><a href="#3-形参注解" class="headerlink" title="3. 形参注解"></a>3. 形参注解</h1><h2 id="3-1-RequestParam"><a href="#3-1-RequestParam" class="headerlink" title="3.1 @RequestParam"></a>3.1 @RequestParam</h2><p><strong>用途</strong>：<code>@RequestParam</code> 用于从请求的 URL 查询参数中提取参数。它通常用于处理 <code>GET</code> 请求时的参数传递。(问号参数)</p>
+<p><strong>常见用法</strong>：常用于<strong>查询</strong>操作，或者在 URL 中带有多个查询参数的场景。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/api/users&quot;)</span></span><br><span class="line"><span class="keyword">public</span> ResponseEntity&lt;List&lt;User&gt;&gt; <span class="title function_">getUsers</span><span class="params">(<span class="meta">@RequestParam(&quot;age&quot;)</span> <span class="type">int</span> age, <span class="meta">@RequestParam(&quot;name&quot;)</span> String name)</span> &#123;</span><br><span class="line">    <span class="comment">// 逻辑处理</span></span><br><span class="line">    List&lt;User&gt; users = userService.getUsersByAgeAndName(age, name);</span><br><span class="line">    <span class="keyword">return</span> ResponseEntity.ok(users);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>请求</strong>：<code>GET /api/users?age=25&amp;name=John</code></p>
+<h2 id="3-2-PathVariable"><a href="#3-2-PathVariable" class="headerlink" title="3.2 @PathVariable"></a>3.2 @PathVariable</h2><p><strong>用途</strong>：<code>@PathVariable</code> 用于从 URL 路径中提取参数。它通常用于动态路径，常见于 RESTful 风格的 URL 中。(路径参数)</p>
+<p><strong>常见用法</strong>：常用于<strong>单个条件查询</strong>、<strong>按id删除</strong>等操作，获取 URL 路径中的动态部分（如资源 ID）。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/api/users/&#123;id&#125;&quot;)</span></span><br><span class="line"><span class="keyword">public</span> ResponseEntity&lt;User&gt; <span class="title function_">getUserById</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Long userId)</span> &#123;</span><br><span class="line">    <span class="comment">// 逻辑处理</span></span><br><span class="line">    <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> userService.getUserById(userId);</span><br><span class="line">    <span class="keyword">return</span> ResponseEntity.ok(user);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>请求</strong>：<code>GET /api/users/123</code></p>
+<h2 id="3-3-RequestBody"><a href="#3-3-RequestBody" class="headerlink" title="3.3 @RequestBody"></a>3.3 @RequestBody</h2><p><strong>用途</strong>：<code>@RequestBody</code> 用于从请求的正文中提取数据，通常用于处理 <code>POST</code> 或 <code>PUT</code> 请求中的 <strong>JSON</strong> 或其他格式的<strong>请求体</strong>。（<strong>添加、修改</strong>操作）</p>
+<p><strong>常见用法</strong>：通常用于<strong>提交表单数据</strong>或提交较复杂的数据结构。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/api/users&quot;)</span></span><br><span class="line"><span class="keyword">public</span> ResponseEntity&lt;String&gt; <span class="title function_">createUser</span><span class="params">(<span class="meta">@RequestBody</span> User user)</span> &#123;</span><br><span class="line">    <span class="comment">// 逻辑处理</span></span><br><span class="line">    userService.createUser(user);</span><br><span class="line">    <span class="keyword">return</span> ResponseEntity.status(HttpStatus.CREATED).body(<span class="string">&quot;User created successfully&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>请求</strong>：<code>POST /api/users</code> 请求体：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;John&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;age&quot;</span><span class="punctuation">:</span> <span class="number">25</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="4-动态sql"><a href="#4-动态sql" class="headerlink" title="4. 动态sql"></a>4. 动态sql</h1><h2 id="4-1-批量添加"><a href="#4-1-批量添加" class="headerlink" title="4.1 批量添加"></a>4.1 批量添加</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;insert id=&quot;addExpr&quot;&gt;</span><br><span class="line">    insert into emp_expr(emp_id,begin,end,company,job) values</span><br><span class="line">    &lt;foreach collection=&quot;exprList&quot; item=&quot;expr&quot; separator=&quot;,&quot;&gt;</span><br><span class="line">        (#&#123;expr.empId&#125;,#&#123;expr.begin&#125;,#&#123;expr.end&#125;,#&#123;expr.company&#125;,#&#123;expr.job&#125;)</span><br><span class="line">    &lt;/foreach&gt;</span><br><span class="line">&lt;/insert&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-2-批量删除"><a href="#4-2-批量删除" class="headerlink" title="4.2 批量删除"></a>4.2 批量删除</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;delete id=&quot;deleteByEmpIds&quot;&gt;</span><br><span class="line">    delete from emp_expr where emp_id in</span><br><span class="line">    &lt;foreach collection=&quot;empIds&quot; item=&quot;empId&quot; separator=&quot;,&quot; open=&quot;(&quot; close=&quot;)&quot;&gt;</span><br><span class="line">        #&#123;empId&#125;</span><br><span class="line">    &lt;/foreach&gt;</span><br><span class="line">&lt;/delete&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-3-条件查询"><a href="#4-3-条件查询" class="headerlink" title="4.3 条件查询"></a>4.3 条件查询</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;list&quot; resultType=&quot;com.example.pojo.Emp&quot;&gt;</span><br><span class="line">    select e.*, d.name deptName from emp e left join dept d on e.dept_id = d.id</span><br><span class="line">    &lt;where&gt;</span><br><span class="line">    &lt;if test=&quot;name != null and name != &#x27;&#x27;&quot;&gt;e.name like concat(&#x27;%&#x27;,#&#123;name&#125;,&#x27;%&#x27;)&lt;/if&gt;</span><br><span class="line">    &lt;if test=&quot;gender != null&quot;&gt;and e.gender = #&#123;gender&#125;&lt;/if&gt;</span><br><span class="line">    &lt;if test=&quot;begin != null and end != null&quot;&gt;and entry_date between #&#123;begin&#125; and #&#123;end&#125;&lt;/if&gt;</span><br><span class="line">    &lt;/where&gt;</span><br><span class="line">    order by e.update_time desc</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-4-动态修改"><a href="#4-4-动态修改" class="headerlink" title="4.4 动态修改"></a>4.4 动态修改</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;update id=&quot;update&quot;&gt;</span><br><span class="line">    update emp</span><br><span class="line">    &lt;set&gt;</span><br><span class="line">        &lt;if test=&quot;username != null and username!=&#x27;&#x27;&quot;&gt;username = #&#123;username&#125;,&lt;/if&gt;</span><br><span class="line">        &lt;if test=&quot;password != null and password!=&#x27;&#x27;&quot;&gt;password = #&#123;password&#125;,&lt;/if&gt;</span><br><span class="line">        &lt;if test=&quot;name != null and name!=&#x27;&#x27;&quot;&gt;name = #&#123;name&#125;,&lt;/if&gt;</span><br><span class="line">        &lt;if test=&quot;gender != null&quot;&gt;gender = #&#123;gender&#125;,&lt;/if&gt;</span><br><span class="line">        &lt;if test=&quot;phone != null and phone!=&#x27;&#x27;&quot;&gt;phone = #&#123;phone&#125;,&lt;/if&gt;</span><br><span class="line">        &lt;if test=&quot;job != null&quot;&gt;job = #&#123;job&#125;,&lt;/if&gt;</span><br><span class="line">        &lt;if test=&quot;salary != null&quot;&gt;salary = #&#123;salary&#125;,&lt;/if&gt;</span><br><span class="line">        &lt;if test=&quot;image != null and image!=&#x27;&#x27;&quot;&gt;image = #&#123;image&#125;,&lt;/if&gt;</span><br><span class="line">        &lt;if test=&quot;entryDate != null&quot;&gt;entry_date = #&#123;entryDate&#125;,&lt;/if&gt;</span><br><span class="line">        &lt;if test=&quot;deptId != null&quot;&gt;dept_id = #&#123;deptId&#125;,&lt;/if&gt;</span><br><span class="line">        &lt;if test=&quot;updateTime != null&quot;&gt;update_time = #&#123;updateTime&#125;,&lt;/if&gt;</span><br><span class="line">    &lt;/set&gt;</span><br><span class="line">    WHERE id = #&#123;id&#125;</span><br><span class="line">&lt;/update&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-5-动态起别名"><a href="#4-5-动态起别名" class="headerlink" title="4.5 动态起别名"></a>4.5 动态起别名</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;countEmpGenderData&quot; resultType=&quot;java.util.Map&quot;&gt;</span><br><span class="line">    select (case</span><br><span class="line">        when gender = 1 then &#x27;男性员工&#x27;</span><br><span class="line">        when gender = 2 then &#x27;女性员工&#x27;</span><br><span class="line">        end) name,</span><br><span class="line">        count(*) value from emp group by gender</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="5-事务"><a href="#5-事务" class="headerlink" title="5.事务"></a>5.事务</h1><h2 id="5-1-简介"><a href="#5-1-简介" class="headerlink" title="5.1 简介"></a>5.1 简介</h2><p>为了防止数据库更新的不一致性，比如一个请求需要同时修改员工信息和员工工作经历信息，需要使用事务，使对数据库的两个操作要么都成功，要么都失败。</p>
+<p><strong>用法</strong>：在业务方法上添加注解@Transactional</p>
+<p><strong>属性1</strong>：rollbackFor</p>
+<blockquote>
+<p>控制事务生效时机：该注解默认只出现<strong>RuntimeException(运行时异常)<strong>才会</strong>回滚事务</strong>。要想所有异常均会回滚，需要加上属性<strong>rollbackFor</strong>，即@Transactional(rollbackFor &#x3D; Exception.class)</p>
+</blockquote>
+<p><strong>属性2</strong>：propagation    （默认值是REQUIRED）</p>
+<blockquote>
+<p>控制事务传播性，加入现在有两个事务方法A、B，且A方法调用B方法。默认情况下B会加入到A事务中，即A、B两个方法涉及到的对数据库的操作要么都成功，要么都失败。要想将B事务从A事务中隔离出来，需要用到属性<strong>propagation</strong>，即@Transactional(propagation &#x3D; Propagation.REQUIRES_NEW)</p>
+</blockquote>
+<h2 id="5-2-事务的四大特性"><a href="#5-2-事务的四大特性" class="headerlink" title="5.2 事务的四大特性"></a>5.2 事务的四大特性</h2><p>原子性：事务里的操作要么都成功，要么都失败</p>
+<p>一致性：数据库的数据要么都变化，要么都回滚</p>
+<p>隔离性：多个用户并发的访问数据库时，一个用户的事务不能被其他用户的事务干扰，多个并发的事务之间要相互隔离。一个事务的成功或者失败对于其他的事务没有影响。</p>
+<p>持久性：事务一旦被提交或回滚，数据库的改变将是永久性的。</p>
+<h1 id="6-文件上传"><a href="#6-文件上传" class="headerlink" title="6.文件上传"></a>6.文件上传</h1><p>使用阿里云服务</p>
+<p>1.创建AccessKey</p>
+<p>一定要用文件保存<strong>ACCESS_KEY_ID</strong>和<strong>ACCESS_KEY_SECRET</strong>（当然，如果大脑比较强，能直接记住的话，也可以不用文件单独保存记录( $ _ $ )）</p>
+<p>2.配置AccessKey</p>
+<p>以<strong>管理员身份</strong>打开CMD命令行，执行如下命令，配置系统的环境变量。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> OSS_ACCESS_KEY_ID<span class="operator">=</span>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><br><span class="line"><span class="keyword">set</span> OSS_ACCESS_KEY_SECRET<span class="operator">=</span>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><br></pre></td></tr></table></figure>
+
+<p>验证配置是否生效</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo %OSS_ACCESS_KEY_ID%</span><br><span class="line">echo %OSS_ACCESS_KEY_SECRET%</span><br></pre></td></tr></table></figure>
+
+<p>3.导入依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--阿里云OSS依赖--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.aliyun.oss<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>aliyun-sdk-oss<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.17.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.xml.bind<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jaxb-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.activation<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>activation<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- no more than 2.3.3--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.glassfish.jaxb<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jaxb-runtime<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>4.实现</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://Cyranol.github.io">Cyranol</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://cyranol.github.io/2025/09/13/JavaWeb-Tlias/">http://cyranol.github.io/2025/09/13/JavaWeb-Tlias/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JavaWeb/">JavaWeb</a></div><div class="post-share"><div class="social-share" data-image="/img/11.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>如果觉得文章对你有帮助，可以请我喝杯咖啡~ ☕</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat-pay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat-pay.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/09/06/My-First-Blog/" title="My First Blog"><img class="cover" src="/img/03.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">My First Blog</div></div><div class="info-2"><div class="info-item-1">这是我的第一篇博客，用 Hexo 和 Github Page 搭建。 </div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/01.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Cyranol</div><div class="author-info-description">追求技术的同时，别忘了热爱生活</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/"><i class="fab fa-github"></i><span>前往大本营</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">文章会不定时更新哦~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.</span> <span class="toc-text">1. 分页查询</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E4%BC%A0%E7%BB%9F%E5%81%9A%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 传统做法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-1-controller%E5%B1%82"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1.1 controller层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-2-Service%E5%B1%82"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.1.2 Service层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-3-Mapper%E5%B1%82"><span class="toc-number">1.1.3.</span> <span class="toc-text">1.1.3  Mapper层</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E5%88%A9%E7%94%A8Mybatis%E7%9A%84PageHelper%E6%8F%92%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 利用Mybatis的PageHelper插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-1-%E5%AF%BC%E5%85%A5%E4%BE%9D%E8%B5%96"><span class="toc-number">1.2.1.</span> <span class="toc-text">1.2.1 导入依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-2-Controller%E5%B1%82"><span class="toc-number">1.2.2.</span> <span class="toc-text">1.2.2 Controller层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-3-Service%E5%B1%82"><span class="toc-number">1.2.3.</span> <span class="toc-text">1.2.3 Service层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-3-Mapper%E5%B1%82"><span class="toc-number">1.2.4.</span> <span class="toc-text">1.2.3 Mapper层</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%B8%B8%E8%A7%81%E4%B8%9A%E5%8A%A1"><span class="toc-number">2.</span> <span class="toc-text">2.常见业务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E6%9F%A5%E8%AF%A2%EF%BC%88%E9%9C%80%E8%A6%81%E8%BF%94%E5%9B%9E%E7%BB%99%E5%89%8D%E7%AB%AF%E6%95%B0%E6%8D%AE%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 查询（需要返回给前端数据）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E6%93%8D%E4%BD%9C-%E4%B8%8D%E9%9C%80%E8%A6%81%E8%BF%94%E5%9B%9E%E6%95%B0%E6%8D%AE"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 操作(不需要返回数据)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-%E5%88%A0%EF%BC%88%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4%EF%BC%8C%E5%8C%85%E6%8B%AC%E4%BA%86%E5%88%A0%E9%99%A4%E5%8D%95%E4%B8%AA%EF%BC%89"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 删（批量删除，包括了删除单个）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-%E5%A2%9E"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 增</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3-%E6%94%B9"><span class="toc-number">2.2.3.</span> <span class="toc-text">2.2.3 改</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%BD%A2%E5%8F%82%E6%B3%A8%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">3. 形参注解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-RequestParam"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 @RequestParam</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-PathVariable"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 @PathVariable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-RequestBody"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 @RequestBody</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%8A%A8%E6%80%81sql"><span class="toc-number">4.</span> <span class="toc-text">4. 动态sql</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E6%89%B9%E9%87%8F%E6%B7%BB%E5%8A%A0"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 批量添加</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 批量删除</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 条件查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-%E5%8A%A8%E6%80%81%E4%BF%AE%E6%94%B9"><span class="toc-number">4.4.</span> <span class="toc-text">4.4 动态修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-%E5%8A%A8%E6%80%81%E8%B5%B7%E5%88%AB%E5%90%8D"><span class="toc-number">4.5.</span> <span class="toc-text">4.5 动态起别名</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E4%BA%8B%E5%8A%A1"><span class="toc-number">5.</span> <span class="toc-text">5.事务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-%E7%AE%80%E4%BB%8B"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 事务的四大特性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="toc-number">6.</span> <span class="toc-text">6.文件上传</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/JavaWeb-Tlias/" title="JavaWeb-Tlias"><img src="/img/11.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaWeb-Tlias"/></a><div class="content"><a class="title" href="/2025/09/13/JavaWeb-Tlias/" title="JavaWeb-Tlias">JavaWeb-Tlias</a><time datetime="2025-09-13T14:38:20.000Z" title="Created 2025-09-13 22:38:20">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/06/My-First-Blog/" title="My First Blog"><img src="/img/03.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="My First Blog"/></a><div class="content"><a class="title" href="/2025/09/06/My-First-Blog/" title="My First Blog">My First Blog</a><time datetime="2025-09-06T01:02:28.000Z" title="Created 2025-09-06 09:02:28">2025-09-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/06/hello-world/" title="Hello World"><img src="/img/09.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2025/09/06/hello-world/" title="Hello World">Hello World</a><time datetime="2025-09-05T23:25:24.748Z" title="Created 2025-09-06 07:25:24">2025-09-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/03.png);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By Cyranol</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.3</a></span></div><div class="footer_custom_text">Thank you for your reading!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://cdn.jsdelivr.net/npm/hexo-theme-butterfly/source/js/utils.min.js"></script><script src="https://cdn.jsdelivr.net/npm/hexo-theme-butterfly/source/js/main.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><div class="js-pjax"></div><div id="spotify-wrapper" class="hidden"> <div id="spotify-toggle">🎵</div> <iframe id="spotify-frame" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/70IoUYNIdO2F6lclOqmWWk?utm_source=generator" width="350" height="80" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"> </iframe> </div>
+<style> #spotify-wrapper { position: fixed; bottom: 20px; left: 20px; z-index: 9999; }
+/* 播放器默认可见 */ #spotify-frame { display: block; background: rgba(255, 255, 255, 0.7);  border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); width: 350px; height: 80px; opacity: 1; transform: scale(1); transition: all 0.4s ease; /*  淡入淡出 + 缩放 */ }
+/* 隐藏状态：缩小并透明 */ #spotify-wrapper.hidden #spotify-frame { opacity: 0; transform: scale(0.8); pointer-events: none; /*  不可点击 */ }
+#spotify-toggle { position: absolute; bottom: 90px; /* 在播放器上方 */ left: 10px; background: rgba(255, 255, 255, 0.6); /* 半透明白色按钮 */ color: #000; font-size: 18px; padding: 5px 10px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.2); backdrop-filter: blur(5px); transition: background 0.3s ease, transform 0.3s ease; /*  按钮 hover 动画 */ }
+#spotify-toggle:hover { background: rgba(255, 255, 255, 0.9); transform: scale(1.1); } </style>
+<script> document.addEventListener("DOMContentLoaded", function(){ var wrapper = document.getElementById("spotify-wrapper"); var toggle = document.getElementById("spotify-toggle"); toggle.addEventListener("click", function(){ wrapper.classList.toggle("hidden"); }); }); </script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="I,LOVE,YOU" data-fontsize="15px" data-random="false" async="async"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      false
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
